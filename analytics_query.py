@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#/usr/bin/python2
 # -*- coding: utf-8 -*-
 
 import sys,codecs,csv
@@ -62,7 +62,7 @@ def get_profile_id(service):
 
       if profiles.get('items'):
         # return the first View (Profile) ID
-        return profiles.get('items')[0].get('id')
+        return profiles.get('items')[1].get('id')
 
   return None
 
