@@ -4,10 +4,13 @@
 import sys,codecs,csv
 import analytics_auth   # import the Auth Helper class
 import datetime
+import ast
 
+from geopy.geocoders import Nominatim
 from apiclient.errors import HttpError
 from oauth2client.client import AccessTokenRefreshError
 
+geolocator = Nominatim()
 
 # Fix for various character encoding errors for output
 if sys.stdout.encoding != 'UTF-8':
@@ -46,7 +49,7 @@ def get_profile_id(service):
 
   if accounts.get('items'):
     # Get the first Google Analytics account
-    firstAccountId = accounts.get('items')[3].get('id')
+    firstAccountId = accounts.get('items')[0].get('id')
 
     # Get a list of all the Web Properties for the first account
     webproperties = service.management().webproperties().list(accountId=firstAccountId).execute()
@@ -62,7 +65,7 @@ def get_profile_id(service):
 
       if profiles.get('items'):
         # return the first View (Profile) ID
-        return profiles.get('items')[1].get('id')
+        return profiles.get('items')[0].get('id')
 
   return None
 
@@ -75,10 +78,10 @@ def get_results(service, profile_id):
    
   return service.data().ga().get(
       ids='ga:'+ profile_id,
-      start_date=usedate,
-      end_date=usedate,
+      start_date='2011-01-01',
+      end_date='2011-03-01',
       metrics='ga:sessions',
-	  dimensions='ga:longitude,ga:latitude',
+	  dimensions='ga:country',
 	  max_results='10000',
 	  sort='-ga:sessions').execute()
 
@@ -86,18 +89,19 @@ def get_results(service, profile_id):
 def print_results(results):
   # Print data nicely for the user.
   if results:
-	"""print_report_info(results)
-	print_pagination_info(results)
-	print_profile_info(results)
-	print_query(results)
-	print_column_headers(results)
-	print_totals_for_all_results(results)"""
-	print_rows(results)
 
+	#print_report_info(results)
+	#print_pagination_info(results)
+	#print_profile_info(results)
+	#print_query(results)
+	#print_column_headers(results)
+	#print_totals_for_all_results(results)
+  	print_rows(results)
+	
   else:
     print 'No results found'
 
-"""
+
 def print_report_info(results):
 
   print 'Report Infos:'
@@ -120,7 +124,11 @@ def print_pagination_info(results):
   if results.get('nextLink'):
     print 'Next Link      = %s' % results.get('nextLink')
   print
+'''  
+  num_pages = math.ceil(results.get('totalResults')/10000)
 
+  for page_number in range (num_pages)[1:]: 
+  '''
 
 def print_profile_info(results):
 
@@ -169,26 +177,38 @@ def print_totals_for_all_results(results):
     print 'Metric Name  = %s' % metric_name
     print 'Metric Total = %s' % metric_total
     print
-"""
+
 
 def print_rows(results):
 
-  # Opens and writes rows into CSV file
-  #writer = csv.writer(codecs.open('test.csv','w', encoding='UTF-8', errors='replace'))
   #print 'Rows:'
   if results.get('rows', []):
-    #i = 0
+  
     for row in results.get('rows'):
-      #row_encode = row[1].encode('utf-8')
-      #row_encode2 = row[0].decode('utf-8')
-      print ','.join(row)
-      #writer.writerow(row)
-      #i = i + 1
+	  
+	  # Encodes to ascii to remove unicode marker in array 
+	  row0_ascii = row[0].encode('ascii', 'ignore')
+	  row1_ascii = row[1].encode('ascii', 'ignore')
+	  
+	  # Searches for location data on country name
+	  location = geolocator.geocode(row[0])
+	 
+	  try:
+		#Creates new array (to remove single quotes)
+		new_row = [location.longitude, location.latitude, row1_ascii]
+		#new_row = [row0_ascii, location.longitude, location.latitude, row1_ascii]
+		
+		jointrow = ','.join([str(i) for i in new_row])
+		print(jointrow)
+	  except AttributeError:
+		#uncomment to see missing coordinates
+		#print('!!!! Could not locate: '+ row[0] +' !!!!------------------')
+		pass
+
   else:
     print 'No Rows Found'
   
-  #close('test.csv')
-
+  
 if __name__ == '__main__':
   main(sys.argv)
 
