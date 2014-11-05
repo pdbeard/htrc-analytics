@@ -1,4 +1,7 @@
 //------ Legend for HTRC
+// Need Relative Text Sizing
+// Automate csv switching?
+// Percentage based text?
 
 PShape total;
 PShape usa;
@@ -6,12 +9,12 @@ PShape max;
 PImage bg;
 Table csv_table;
 
+//vars
 float max_sess  = 3856316; //Find Max Session for all data
-float min_sess  = 0;
-float max_scale = 600;     //Largest Circle 
-float min_scale = 0;
-
-int line_size = 300;
+float max_scale = 300;     //Largest Circle 
+int line_size = 300;       //Underlining line length for labels
+float min_sess  = 0;       //not used
+float min_scale = 0;       //not used
 
 float total_sessions;
 float usa_sessions;
@@ -29,14 +32,11 @@ void setup()
   size(800,800,P2D);
   bg = loadImage("trans.png");
 
+//
 //------ Start Scale
-  
+//  
 
-  float min_sess  = 0;
-  float max_scale = 300;     //Largest Circle 
-  float min_scale = 0;
-    
-  //Gets first row data for USA (Should search by lat and lon coords instead of first row) 
+  //Gets first row data for USA (Should search by lat and lon coords instead of first row *technically*) 
   csv_table = loadTable("quarterly/2014_3.csv", "header");
   TableRow getUSA = csv_table.getRow(0);
   usa_sessions = getUSA.getInt("sess");
@@ -51,13 +51,15 @@ void setup()
   //Doesn't need the max/min sessions or scale. But It looks fancy.  #stylepoints
   //total_norm = max_scale;
   total_norm = (((max_scale - min_scale)/(max_sess - min_sess))*(total_sessions - max_sess)) + max_scale;
-  usa_norm = (((max_scale - min_scale)/(max_sess - min_sess))*(usa_sessions - max_sess)) + max_scale;
+  usa_norm   = (((max_scale - min_scale)/(max_sess - min_sess))*(usa_sessions - max_sess)) + max_scale;
   
   //Prints useful data
   println("Total Sessions = "+total_sessions+" USA Sessions = "+usa_sessions);
   println("total norm = " +total_norm + " Usa norm = " +usa_norm);
 
+//
 //------ End Scale
+//
 
   //Move variables
   usa_move     = (max_scale-usa_norm)/2;
@@ -82,10 +84,6 @@ void setup()
 
 void draw()
 {
- // Need to make line width dynamic (using total session size) *kinda done
- // Need Relative Text Sizing
- // Clean up variables
- 
  background(bg);
  textAlign(CENTER,CENTER);
  noLoop();
@@ -94,7 +92,6 @@ void draw()
  String max_text   = new java.text.DecimalFormat("#").format(max_sess);
  String total_text = new java.text.DecimalFormat("#").format(total_sessions);
  String usa_text   = new java.text.DecimalFormat("#").format(usa_sessions);
- 
  
  //Max Session Circle Properties
  shape(max);
@@ -129,9 +126,10 @@ void draw()
  text("Total sessions this quarter", width/3+half_move, height/2+total_move-20);
  text("USA sessions this quarter", width/3+half_move, height/2+usa_move-20);
  
+ //Title 
  textSize(40);
  text("3rd Quarter 2014",width/3.5,height/4.5); 
  
- 
+ //Save to output
  saveFrame("output/2014_3.png"); 
 }
