@@ -52,6 +52,8 @@ void draw() {
   pg.clear();
    
   //Create an offscreen render ellipse to be warped
+  //shapeMode(CENTER);
+  //pg.ellipseMode(CENTER);
   pg.background(0,0,0,0);
   pg.rotateZ(-18*PI/180);
   pg.fill(195,0,0,255);  // Hathi Trust red
@@ -102,10 +104,10 @@ void draw() {
   println(csv_table.getRowCount() + " total rows in table"); 
   
   //Scale
-  float max_sess = 3856316; 
+  float max_sess = 4206421; 
   float min_sess = 1;
-  float max_scale = 200;
-  float min_scale = 30;
+  float max_scale = 450;
+  float min_scale = 10;
   int i = 0;
 
   max_sess = sqrt(max_sess);
@@ -123,7 +125,7 @@ void draw() {
     circle_Tissot = createQuad(lon,lat,norm,norm,pg); 
     shape(circle_Tissot);
    
-    text_Tissot = createQuad(lon,lat,100,100,apg.get(i));
+    //text_Tissot = createQuad(lon,lat,100,100,apg.get(i));
     //shape(text_Tissot);
    
     //String name = row.getString("name"); 
@@ -132,7 +134,7 @@ void draw() {
     i++;
   }
 
- saveFrame("output/2010_1.png"); 
- //exit();
+ saveFrame("test.png"); 
+ exit();
 }
 

@@ -10,7 +10,7 @@ PImage bg;
 Table csv_table;
 
 //vars
-float max_sess  = 3856316; //Find Max Session for all data
+float max_sess  = 4206421; //Find Max Session for all data
 float max_scale = 300;     //Largest Circle 
 int line_size = 300;       //Underlining line length for labels
 float min_sess  = 0;       //not used
@@ -37,7 +37,7 @@ void setup()
 //  
 
   //Gets first row data for USA (Should search by lat and lon coords instead of first row *technically*) 
-  csv_table = loadTable("quarterly/2014_3.csv", "header");
+  csv_table = loadTable("quarterly/2013_4.csv", "header");
   TableRow getUSA = csv_table.getRow(0);
   usa_sessions = getUSA.getInt("sess");
   
@@ -71,6 +71,7 @@ void setup()
   shapeMode(CENTER);
   
   max = createShape(ELLIPSE,width/3,height/2,max_scale,max_scale);
+  max.setFill(color(105,105,105));
   max.setStrokeWeight(4);
   
   total = createShape(ELLIPSE,width/3,height/2+total_move,total_norm,total_norm);
@@ -78,6 +79,7 @@ void setup()
   total.setStrokeWeight(4);
   
   usa = createShape(ELLIPSE,width/3,height/2+usa_move,usa_norm,usa_norm);
+  usa.setFill(color(105,105,105));
   usa.setStrokeWeight(4);
 }
 
@@ -131,5 +133,5 @@ void draw()
  text("3rd Quarter 2014",width/3.5,height/4.5); 
  
  //Save to output
- saveFrame("output/2014_3.png"); 
+ saveFrame("test.png"); 
 }
