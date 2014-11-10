@@ -140,21 +140,21 @@ void draw() {
   }
  
 
-
- image(graph_img, width-600,height/2.5,550,203);
- image(logo,width-600+225, height/2-405,100,100);
+ int main_scoot = 704;
+ image(graph_img, width-main_scoot,height/2.5,550,203);
+ image(logo,width-main_scoot+225, height/2-402,100,100);
  
- image(graph_img, width/2-600,height/2.5,550,203);
- image(logo,width/2-600+225, height/2-405,100,100);
+ image(graph_img, width/2-main_scoot,height/2.5,550,203);
+ image(logo,width/2-main_scoot+225, height/2-402,100,100);
  
  fill(255);
  textAlign(CENTER, RIGHT);
- textSize(50);
- text("Hathi Trust ",width-600+275,height/2-253 );
- text("Hathi Trust",width/2-600+275, height/2-253 );
- textSize(25);
- text("Hathitrust.org quarterly web sessions: 2010 - 2014",width-600+275,height/2-210);
- text("Hathitrust.org quarterly web sessions: 2010 - 2014",width/2-600+275, height/2-210);
+ textSize(40);
+ text("Hathi Trust ",width-main_scoot+275,height/2-250 );
+ text("Hathi Trust",width/2-main_scoot+275, height/2-250 );
+ textSize(20);
+ text("Hathitrust.org quarterly web sessions: 2010 - 2014",width-main_scoot+275,height/2-210);
+ text("Hathitrust.org quarterly web sessions: 2010 - 2014",width/2-main_scoot+275, height/2-210);
  
  saveFrame("output/"+savedate+"test.png"); 
  exit();
