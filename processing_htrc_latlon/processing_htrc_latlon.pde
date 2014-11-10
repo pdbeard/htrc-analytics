@@ -7,22 +7,26 @@ BoundingBox envelope = new BoundingBox(4267, 90f, 180f, -90f, -180f);
 
 PGraphics pg; //offscreen buffer renderer
 float[] glyphParam = new float[4];
-PImage shape_img;
+PImage graph_img;
+PImage logo;
 PImage bg;
 Table csv_table;
 PFont labelFont;
 ArrayList <PGraphics> apg;
 //PGraphics pgtext;
 
+String savedate = "2014_3";
+
 void setup() {
-  colorMode(HSB,360,100,100);
+  //colorMode(HSB,360,100,100);
   int d = 4096;
   size(d,envelope.heightFromWidth(d),P3D);
   pg = createGraphics(1024,1024, P3D);    //initialize offscreen buffer
   //pgtext = createGraphics(1024,1024, P3D);
   hint(DISABLE_DEPTH_TEST);                      //avoids z-fighting
-  //shape_img = loadImage("shape.png");
+  graph_img = loadImage("graphs/"+savedate+"_g.png");
   bg = loadImage("world_complex.jpg");
+  logo = loadImage("htrc_logo.jpg");
   
   smooth();
   noLoop();  
@@ -31,7 +35,7 @@ void setup() {
 void draw() {
   background(bg);
   fill(255);
-  csv_table = loadTable("quarterly/2010_1.csv", "header");
+  csv_table = loadTable("quarterly/"+savedate+".csv", "header");
   apg = new ArrayList<PGraphics>(); 
   pg.beginDraw();
   
@@ -56,7 +60,8 @@ void draw() {
   //pg.ellipseMode(CENTER);
   pg.background(0,0,0,0);
   pg.rotateZ(-18*PI/180);
-  pg.fill(195,0,0,255);  // Hathi Trust red
+  //pg.fill(195,0,0,255);  // Hathi Trust red
+  pg.fill(55,126,184,255);      // Blue
   pg.stroke(255,255,255,255);
   pg.strokeWeight(pg.width/20);
   pg.smooth(8);
@@ -133,8 +138,25 @@ void draw() {
     println(" max="+max_scale + " min="+min_scale +" maxsess"+ max_sess +" minsess="+ min_sess);
     i++;
   }
+ 
 
- saveFrame("test.png"); 
+
+ image(graph_img, width-600,height/2.5,550,203);
+ image(logo,width-600+225, height/2-405,100,100);
+ 
+ image(graph_img, width/2-600,height/2.5,550,203);
+ image(logo,width/2-600+225, height/2-405,100,100);
+ 
+ fill(255);
+ textAlign(CENTER, RIGHT);
+ textSize(50);
+ text("Hathi Trust ",width-600+275,height/2-253 );
+ text("Hathi Trust",width/2-600+275, height/2-253 );
+ textSize(25);
+ text("Hathitrust.org quarterly web sessions: 2010 - 2014",width-600+275,height/2-210);
+ text("Hathitrust.org quarterly web sessions: 2010 - 2014",width/2-600+275, height/2-210);
+ 
+ saveFrame("output/"+savedate+"test.png"); 
  exit();
 }
 

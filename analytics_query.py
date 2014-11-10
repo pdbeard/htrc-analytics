@@ -78,8 +78,8 @@ def get_results(service, profile_id):
    
   return service.data().ga().get(
       ids='ga:'+ profile_id,
-      start_date='2011-01-01',
-      end_date='2011-03-01',
+      start_date='2014-07-01',
+      end_date='2014-10-01',
       metrics='ga:sessions',
 	  dimensions='ga:country',
 	  max_results='10000',
