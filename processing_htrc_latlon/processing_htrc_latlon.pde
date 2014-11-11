@@ -106,7 +106,7 @@ void draw() {
  
   PShape circle_Tissot; //initialize shape
   PShape text_Tissot;
-  println(csv_table.getRowCount() + " total rows in table"); 
+  //println(csv_table.getRowCount() + " total rows in table"); 
   
   //Scale
   float max_sess = 4206421; 
@@ -124,7 +124,7 @@ void draw() {
     float sess = row.getInt("sess");
     
     float norm = (((max_scale - min_scale)/(max_sess - min_sess))*(sqrt(sess) - max_sess)) + max_scale;
-    println("SESS MINUS " + ((sqrt(sess)-max_sess)*.005));
+    //println("SESS MINUS " + ((sqrt(sess)-max_sess)*.005));
    
   
     circle_Tissot = createQuad(lon,lat,norm,norm,pg); 
@@ -134,8 +134,8 @@ void draw() {
     //shape(text_Tissot);
    
     //String name = row.getString("name"); 
-    println(" lon="+lon+" : lat="+lat+" : sess="+sess+" : norm="+norm);
-    println(" max="+max_scale + " min="+min_scale +" maxsess"+ max_sess +" minsess="+ min_sess);
+    //println(" lon="+lon+" : lat="+lat+" : sess="+sess+" : norm="+norm);
+    //println(" max="+max_scale + " min="+min_scale +" maxsess"+ max_sess +" minsess="+ min_sess);
     i++;
   }
  
