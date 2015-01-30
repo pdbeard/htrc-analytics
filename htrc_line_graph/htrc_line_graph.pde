@@ -59,7 +59,7 @@ void draw() {
   textAlign(LEFT,CENTER);
   text("2014 Q3",width/4+x-step+6,height/2+5);
   
-  int step_num = 19;
+  int step_num = 18;
  // for (TableRow row: csv_table.rows())
  // { 
         // loop simulator
@@ -92,7 +92,7 @@ void draw() {
     
     step_num++;
     
-    saveFrame("output/"+step_num+"frame.png");
+    saveFrame("output/"+step_num+"test.png");
     exit();
 //  }
   
